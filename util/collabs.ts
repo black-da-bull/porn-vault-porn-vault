@@ -1,8 +1,15 @@
 import axios from "axios";
+
 import { IActor } from "../types/actor";
 
 export async function fetchCollabs(actorId: string): Promise<IActor[]> {
-  const { data } = await axios.post(
+  const { data } = await axios.post<{
+    data: {
+      getActorById: {
+        collabs: IActor[];
+      };
+    };
+  }>(
     "/api/ql",
     {
       query: `

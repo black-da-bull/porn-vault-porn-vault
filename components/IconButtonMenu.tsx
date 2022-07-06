@@ -50,12 +50,13 @@ export default function IconButtonMenu({
           {!!counter && (
             <div
               style={{
+                fontWeight: "bold",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 fontSize: 11,
                 color: "black",
-                backgroundColor: "#ffaa77",
+                backgroundColor: "#aaaaff",
                 width: 14,
                 height: 14,
                 position: "absolute",

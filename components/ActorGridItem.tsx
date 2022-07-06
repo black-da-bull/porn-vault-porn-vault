@@ -1,31 +1,26 @@
 import HeartIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
 
+import { thumbnailUrl } from "../util/thumbnail";
+import ResponsiveImage from "./ResponsiveImage";
+
 type Props = {
   name: string;
-  thumbnail?: string;
+  thumbnailId?: string;
   favorite?: boolean;
   id: string;
 };
 
-function thumbnailUrl(thumbnail: string) {
-  return `/api/media/image/${thumbnail}/thumbnail?password=xxx`;
-}
-
-export default function ActorCard({ id, name, thumbnail, favorite }: Props) {
+export default function ActorCard({ id, name, thumbnailId, favorite }: Props) {
   return (
     <Link href={`/actor/${id}`} passHref>
       <a style={{ display: "block" }} className="hover">
-        {" "}
         <div className="hover" style={{ position: "relative" }}>
-          <div>
-            <img
-              style={{ borderRadius: 8, objectFit: "cover" }}
-              width="100%"
-              height="100%"
-              src={thumbnailUrl(thumbnail || "null")}
-            />
-          </div>
+          <ResponsiveImage
+            aspectRatio="3 / 4"
+            href={`/actor/${id}`}
+            src={thumbnailId && thumbnailUrl(thumbnailId)}
+          />
           {favorite && (
             <div
               style={{

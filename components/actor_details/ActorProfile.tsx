@@ -1,13 +1,13 @@
-import { useTranslations } from "next-intl";
-import { thumbnailUrl } from "../../util/thumbnail";
-import styles from "./ActorProfile.module.scss";
-
-import HeartIcon from "mdi-react/HeartIcon";
-import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
 import BookmarkIcon from "mdi-react/BookmarkIcon";
 import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
-import Rating from "../Rating";
+import HeartIcon from "mdi-react/HeartIcon";
+import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
+import { useTranslations } from "next-intl";
+
+import { thumbnailUrl } from "../../util/thumbnail";
 import Flag from "../Flag";
+import Rating from "../Rating";
+import styles from "./ActorProfile.module.scss";
 
 type Props = {
   avatarId?: string;

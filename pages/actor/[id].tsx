@@ -1,24 +1,23 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
-
-import Card from "../../components/Card";
-import LabelGroup from "../../components/LabelGroup";
-import { actorCardFragment } from "../../fragments/actor";
-import { useMemo } from "react";
-import ListContainer from "../../components/ListContainer";
-import { IActor } from "../../types/actor";
-import { useTranslations } from "next-intl";
-import HeroImage from "../../components/actor_details/HeroImage";
-import ComplexGrid from "../../components/ComplexGrid";
-import ActorProfile from "../../components/actor_details/ActorProfile";
 import Head from "next/head";
-import ActorStats from "../../components/actor_details/ActorStats";
-import CardTitle from "../../components/CardTitle";
-import CardSection from "../../components/CardSection";
-import { buildQueryParser } from "../../util/query_parser";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 
+import ActorProfile from "../../components/actor_details/ActorProfile";
+import ActorStats from "../../components/actor_details/ActorStats";
+import HeroImage from "../../components/actor_details/HeroImage";
 import SceneList from "../../components/actor_details/SceneList";
+import Card from "../../components/Card";
+import CardSection from "../../components/CardSection";
+import CardTitle from "../../components/CardTitle";
+import ComplexGrid from "../../components/ComplexGrid";
+import LabelGroup from "../../components/LabelGroup";
+import ListContainer from "../../components/ListContainer";
+import { actorCardFragment } from "../../fragments/actor";
+import { IActor } from "../../types/actor";
+import { buildQueryParser } from "../../util/query_parser";
 
 const queryParser = buildQueryParser({
   q: {

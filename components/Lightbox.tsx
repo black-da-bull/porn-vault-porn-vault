@@ -1,12 +1,13 @@
-import Paper from "./Paper";
-import styles from "./Lightbox.module.scss";
-import CloseIcon from "mdi-react/CloseIcon";
-import LeftIcon from "mdi-react/ChevronLeftBoxIcon";
-import RightIcon from "mdi-react/ChevronRightBoxIcon";
-import HeartIcon from "mdi-react/HeartIcon";
-import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
 import BookmarkedIcon from "mdi-react/BookmarkIcon";
 import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
+import LeftIcon from "mdi-react/ChevronLeftBoxIcon";
+import RightIcon from "mdi-react/ChevronRightBoxIcon";
+import CloseIcon from "mdi-react/CloseIcon";
+import HeartIcon from "mdi-react/HeartIcon";
+import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
+
+import styles from "./Lightbox.module.scss";
+import Paper from "./Paper";
 
 type Props = {
   active: boolean;

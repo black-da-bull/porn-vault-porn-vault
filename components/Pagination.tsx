@@ -1,12 +1,12 @@
 import Paper from "./Paper";
 
 export function pagination(current: number, total: number): (number | "...")[] {
-  const center: (number | "...")[] = [current - 2, current - 1, current, current + 1, current + 2],
-    filteredCenter = center.filter((p) => p > 1 && p < total),
-    includeThreeLeft = current === 5,
-    includeThreeRight = current === total - 4,
-    includeLeftDots = current > 5,
-    includeRightDots = current < total - 4;
+  const center: (number | "...")[] = [current - 2, current - 1, current, current + 1, current + 2];
+    const filteredCenter = center.filter((p) => p > 1 && p < total);
+    const includeThreeLeft = current === 5;
+    const includeThreeRight = current === total - 4;
+    const includeLeftDots = current > 5;
+    const includeRightDots = current < total - 4;
 
   if (includeThreeLeft) {
     filteredCenter.unshift(2);

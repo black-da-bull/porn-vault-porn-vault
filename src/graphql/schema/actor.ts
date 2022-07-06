@@ -5,6 +5,7 @@ export default gql`
     name: String!
     alpha2: String!
     nationality: String!
+    alias: String
   }
 
   input CustomFieldFilter {

@@ -19,7 +19,7 @@ fragment ActorCard on Actor {
     name
     alpha2
     nationality
+    alias
   }
 }
 `;
-

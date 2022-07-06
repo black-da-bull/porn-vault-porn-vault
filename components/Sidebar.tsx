@@ -1,19 +1,19 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useContext } from "react";
-import { ThemeContext } from "../pages/_app";
-import { useTranslations } from "next-intl";
-
-import SceneIcon from "mdi-react/VideocamIcon";
+import clsx from "clsx";
 import ActorIcon from "mdi-react/AccountBoxIcon";
-import MovieIcon from "mdi-react/VideoIcon";
 import StudioIcon from "mdi-react/CameraAltIcon";
 import ImageIcon from "mdi-react/ImageIcon";
 import MarkerIcon from "mdi-react/SkipNextIcon";
+import SceneIcon from "mdi-react/VideocamIcon";
+import MovieIcon from "mdi-react/VideoIcon";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
+import { useContext } from "react";
+
 import { useVersion } from "../composables/use_version";
-import Paper from "./Paper";
-import clsx from "clsx";
+import { ThemeContext } from "../pages/_app";
 import Button from "./Button";
+import Paper from "./Paper";
 
 const links = [
   {

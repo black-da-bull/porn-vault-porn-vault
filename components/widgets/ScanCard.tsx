@@ -1,9 +1,10 @@
-import { useTranslations } from "next-intl";
-import SettingsIcon from "mdi-react/SettingsIcon";
 import Axios from "axios";
-import WidgetCard from "./WidgetCard";
+import SettingsIcon from "mdi-react/SettingsIcon";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+
 import Loader from "../Loader";
+import WidgetCard from "./WidgetCard";
 
 async function getQueueStats() {
   const { data } = await Axios.post("/api/ql", {

@@ -4,8 +4,8 @@ import { dest, src } from "gulp";
 import zip from "gulp-zip";
 import yargs from "yargs";
 
-import { version as packageVersion } from "./package.json";
 import { version as assetsVersion } from "./assets/version.json";
+import { version as packageVersion } from "./package.json";
 
 const gulpArgs = yargs.string("build-version").argv;
 

@@ -1,9 +1,9 @@
 import axios from "axios";
+import { useState } from "react";
 
 import { sceneCardFragment } from "../fragments/scene";
-import { IScene } from "../types/scene";
 import { IPaginationResult } from "../types/pagination";
-import { useState } from "react";
+import { IScene } from "../types/scene";
 import { gqlIp } from "../util/ip";
 
 export function useSceneList(initial: IPaginationResult<IScene>, query: any) {

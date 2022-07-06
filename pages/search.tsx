@@ -1,22 +1,19 @@
+import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import ActorCard from "../components/ActorCard";
-import { actorCardFragment } from "../fragments/actor";
-import { movieCardFragment } from "../fragments/movie";
-import { sceneCardFragment } from "../fragments/scene";
-import Typography from "@mui/material/Typography";
 import { useTranslations } from "next-intl";
-import { IPaginationResult } from "../types/pagination";
-import { IActor } from "../types/actor";
-import { IMovie } from "../types/movie";
-import { IScene } from "../types/scene";
+
+import ActorCard from "../components/ActorCard";
 import ListContainer from "../components/ListContainer";
 import MovieCard from "../components/MovieCard";
 import SceneCard from "../components/SceneCard";
-
-function thumbnailUrl(thumbnail: string) {
-  return `/api/media/image/${thumbnail}/thumbnail?password=xxx`;
-}
+import { actorCardFragment } from "../fragments/actor";
+import { movieCardFragment } from "../fragments/movie";
+import { sceneCardFragment } from "../fragments/scene";
+import { IActor } from "../types/actor";
+import { IMovie } from "../types/movie";
+import { IPaginationResult } from "../types/pagination";
+import { IScene } from "../types/scene";
 
 async function searchAll(query: string) {
   const { data } = await axios.post(

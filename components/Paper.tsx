@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { CSSProperties, ReactNode, useContext } from "react";
+
 import { ThemeContext } from "../pages/_app";
 import styles from "./Paper.module.scss";
 

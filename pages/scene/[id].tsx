@@ -1,29 +1,29 @@
 import axios from "axios";
-import { GetServerSideProps } from "next";
-import { useTranslations } from "next-intl";
-import Head from "next/head";
-import Card from "../../components/Card";
-import CardTitle from "../../components/CardTitle";
-import { IScene } from "../../types/scene";
-import { thumbnailUrl } from "../../util/thumbnail";
-
-import HeartIcon from "mdi-react/HeartIcon";
-import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
 import BookmarkIcon from "mdi-react/BookmarkIcon";
 import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
-import CardSection from "../../components/CardSection";
-import Rating from "../../components/Rating";
-import { formatDuration } from "../../util/string";
+import HeartIcon from "mdi-react/HeartIcon";
+import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
+import { GetServerSideProps } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 import prettyBytes from "pretty-bytes";
+import { useRef, useState } from "react";
+
+import ActorCard from "../../components/ActorCard";
+import Card from "../../components/Card";
+import CardSection from "../../components/CardSection";
+import CardTitle from "../../components/CardTitle";
 import LabelGroup from "../../components/LabelGroup";
 import ListContainer from "../../components/ListContainer";
-import Paper from "../../components/Paper";
-import { useRef, useState } from "react";
-import { movieCardFragment } from "../../fragments/movie";
 import MovieCard from "../../components/MovieCard";
-import Link from "next/link";
+import Paper from "../../components/Paper";
+import Rating from "../../components/Rating";
 import { actorCardFragment } from "../../fragments/actor";
-import ActorCard from "../../components/ActorCard";
+import { movieCardFragment } from "../../fragments/movie";
+import { IScene } from "../../types/scene";
+import { formatDuration } from "../../util/string";
+import { thumbnailUrl } from "../../util/thumbnail";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { data } = await axios.post(

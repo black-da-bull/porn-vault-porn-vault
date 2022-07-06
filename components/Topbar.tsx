@@ -1,8 +1,7 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
-
-import { useTranslations } from "next-intl";
 import MenuIcon from "mdi-react/HamburgerMenuIcon";
+import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 type Props = {
   toggleSidebar: () => void;

@@ -1,5 +1,6 @@
-import { CSSProperties, ReactNode } from "react";
 import clsx from "clsx";
+import { CSSProperties, ReactNode } from "react";
+
 import styles from "./Button.module.scss";
 import Loader from "./Loader";
 

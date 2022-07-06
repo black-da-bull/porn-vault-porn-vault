@@ -1,8 +1,7 @@
 import Color from "color";
-import { useState } from "react";
-
 import ChevronDownIcon from "mdi-react/ChevronDownIcon";
 import ChevronUpIcon from "mdi-react/ChevronUpIcon";
+import { useState } from "react";
 
 type Props = {
   labels: { _id: string; name: string; color?: string }[];

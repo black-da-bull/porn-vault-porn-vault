@@ -1,31 +1,29 @@
-import { useEffect, useState } from "react";
+import ActorIcon from "@mui/icons-material/AccountBox";
+import StudioIcon from "@mui/icons-material/CameraAlt";
+import DarkIcon from "@mui/icons-material/Home";
+import ImageIcon from "@mui/icons-material/Image";
+import MenuIcon from "@mui/icons-material/Menu";
+import SettingsIcon from "@mui/icons-material/Settings";
+import MarkerIcon from "@mui/icons-material/SkipNext";
+import SceneIcon from "@mui/icons-material/Videocam";
+import MovieIcon from "@mui/icons-material/VideoLibrary";
+import LightIcon from "@mui/icons-material/WbSunny";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import SettingsIcon from "@mui/icons-material/Settings";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
-import { useTranslations } from "next-intl";
 import Axios from "axios";
-
-import DarkIcon from "@mui/icons-material/Home";
-import LightIcon from "@mui/icons-material/WbSunny";
-
-import SceneIcon from "@mui/icons-material/Videocam";
-import ActorIcon from "@mui/icons-material/AccountBox";
-import MovieIcon from "@mui/icons-material/VideoLibrary";
-import StudioIcon from "@mui/icons-material/CameraAlt";
-import ImageIcon from "@mui/icons-material/Image";
-import MarkerIcon from "@mui/icons-material/SkipNext";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 const drawerWidth = 200;
 

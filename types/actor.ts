@@ -29,6 +29,7 @@ export interface IActor {
     name: string;
     alpha2: string;
     nationality: string;
+    alias?: string;
   };
   numScenes: number;
   watches: number[];

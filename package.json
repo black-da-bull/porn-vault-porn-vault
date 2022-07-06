@@ -31,7 +31,7 @@
     "zip:win": "gulp zipWindows",
     "zip:mac": "gulp zipMac",
     "lint": "eslint \"src/**/*.ts\"",
-    "lint:fix": "eslint --quiet --fix \"src/**/*.{ts,tsx}\""
+    "lint:fix": "eslint --quiet --fix \"./**/*.{ts,tsx}\""
   },
   "repository": {
     "type": "git",

@@ -1,8 +1,9 @@
-import { useTranslations } from "next-intl";
-import TimeIcon from "mdi-react/TimelapseIcon";
 import Axios from "axios";
-import WidgetCard from "./WidgetCard";
+import TimeIcon from "mdi-react/TimelapseIcon";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+
+import WidgetCard from "./WidgetCard";
 
 async function getWatchStats() {
   const res = await Axios.get<{

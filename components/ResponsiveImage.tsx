@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode, useContext, useMemo } from "react";
+
 import { ThemeContext } from "../pages/_app";
 import { generateThumbnailPlaceholderColor } from "../util/color";
 

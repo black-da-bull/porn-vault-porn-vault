@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import { CSSProperties, ReactNode } from "react";
-import Paper from "./Paper";
+
 import styles from "./Card.module.scss";
+import Paper from "./Paper";
 
 type Props = {
   children: ReactNode;

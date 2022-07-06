@@ -1,18 +1,18 @@
-import HeartIcon from "mdi-react/HeartIcon";
-import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
 import BookmarkIcon from "mdi-react/BookmarkIcon";
 import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
+import HeartIcon from "mdi-react/HeartIcon";
+import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
+import { IMovie } from "../types/movie";
+import { formatDuration } from "../util/string";
+import { thumbnailUrl } from "../util/thumbnail";
+import ActorList from "./ActorList";
+import LabelGroup from "./LabelGroup";
 import Paper from "./Paper";
 import Rating from "./Rating";
-import Link from "next/link";
-import LabelGroup from "./LabelGroup";
-import { IMovie } from "../types/movie";
-import { useState } from "react";
-import { thumbnailUrl } from "../util/thumbnail";
-import { useTranslations } from "next-intl";
-import { formatDuration } from "../util/string";
-import ActorList from "./ActorList";
 import ResponsiveImage from "./ResponsiveImage";
 
 export default function MovieCard({ movie }: { movie: IMovie }) {

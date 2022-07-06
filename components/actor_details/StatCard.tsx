@@ -1,4 +1,11 @@
-export default function StatCard(props: { value: number | string; title: string }) {
+import { ReactNode } from "react";
+
+type Props = {
+  title: string;
+  children: ReactNode;
+};
+
+export default function StatCard({ title, children }: Props) {
   return (
     <div
       style={{
@@ -9,8 +16,8 @@ export default function StatCard(props: { value: number | string; title: string 
         textTransform: "capitalize",
       }}
     >
-      <div style={{ fontSize: 32, fontWeight: 500, marginBottom: 5 }}>{props.value}</div>
-      <div>{props.title}</div>
+      <div style={{ fontSize: 32, fontWeight: 500, marginBottom: 5 }}>{children}</div>
+      <div>{title}</div>
     </div>
   );
 }

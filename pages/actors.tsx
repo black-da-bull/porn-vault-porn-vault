@@ -1,39 +1,36 @@
-import { useMemo, useState } from "react";
-import { fetchActors, useActorList } from "../composables/use_actor_list";
-import { useTranslations } from "next-intl";
-import ActorCard from "../components/ActorCard";
-import Head from "next/head";
-import { GetServerSideProps } from "next";
-import { IPaginationResult } from "../types/pagination";
-import { IActor } from "../types/actor";
-import { useRouter } from "next/router";
-import Button from "../components/Button";
-import Pagination from "../components/Pagination";
-
-import HeartIcon from "mdi-react/HeartIcon";
-import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
 import BookmarkIcon from "mdi-react/BookmarkIcon";
 import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
-import useUpdateEffect from "../composables/use_update_effect";
-import { buildQueryParser } from "../util/query_parser";
-import { CountrySelector } from "../components/CountrySelector";
-import Rating from "../components/Rating";
-import ListWrapper from "../components/ListWrapper";
-import SortDirectionButton, { SortDirection } from "../components/SortDirectionButton";
-import IconButtonMenu from "../components/IconButtonMenu";
-
-import Star from "mdi-react/StarIcon";
-import StarHalf from "mdi-react/StarHalfFullIcon";
-import StarOutline from "mdi-react/StarBorderIcon";
-
-import LabelIcon from "mdi-react/LabelIcon";
-import LabelOutlineIcon from "mdi-react/LabelOutlineIcon";
-import IconButtonFilter from "../components/IconButtonFilter";
-import useLabelList from "../composables/use_label_list";
-import LabelSelector from "../components/LabelSelector";
-
 import FlagIcon from "mdi-react/FlagIcon";
 import FlagOutlineIcon from "mdi-react/FlagOutlineIcon";
+import HeartIcon from "mdi-react/HeartIcon";
+import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
+import LabelIcon from "mdi-react/LabelIcon";
+import LabelOutlineIcon from "mdi-react/LabelOutlineIcon";
+import StarOutline from "mdi-react/StarBorderIcon";
+import StarHalf from "mdi-react/StarHalfFullIcon";
+import Star from "mdi-react/StarIcon";
+import { GetServerSideProps } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
+
+import ActorCard from "../components/ActorCard";
+import Button from "../components/Button";
+import { CountrySelector } from "../components/CountrySelector";
+import IconButtonFilter from "../components/IconButtonFilter";
+import IconButtonMenu from "../components/IconButtonMenu";
+import LabelSelector from "../components/LabelSelector";
+import ListWrapper from "../components/ListWrapper";
+import Pagination from "../components/Pagination";
+import Rating from "../components/Rating";
+import SortDirectionButton, { SortDirection } from "../components/SortDirectionButton";
+import { fetchActors, useActorList } from "../composables/use_actor_list";
+import useLabelList from "../composables/use_label_list";
+import useUpdateEffect from "../composables/use_update_effect";
+import { IActor } from "../types/actor";
+import { IPaginationResult } from "../types/pagination";
+import { buildQueryParser } from "../util/query_parser";
 
 const queryParser = buildQueryParser({
   q: {

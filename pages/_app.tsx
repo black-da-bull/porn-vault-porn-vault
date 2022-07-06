@@ -3,13 +3,13 @@ import "nprogress/nprogress.css";
 
 import { AppProps } from "next/app";
 import Head from "next/head";
+import Router from "next/router";
 import { NextIntlProvider } from "next-intl";
 import nprogress from "nprogress";
 import React, { useEffect } from "react";
-import Router from "next/router";
 
-import lang from "../locale";
 import Layout from "../components/Layout";
+import lang from "../locale";
 
 Router.events.on("routeChangeStart", () => nprogress.start());
 Router.events.on("routeChangeComplete", () => nprogress.done());

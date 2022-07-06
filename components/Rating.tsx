@@ -1,6 +1,6 @@
-import Star from "mdi-react/StarIcon";
-import StarHalf from "mdi-react/StarHalfFullIcon";
 import StarOutline from "mdi-react/StarBorderIcon";
+import StarHalf from "mdi-react/StarHalfFullIcon";
+import Star from "mdi-react/StarIcon";
 
 type RatingProps = {
   value: number;

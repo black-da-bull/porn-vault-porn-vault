@@ -2,6 +2,7 @@ import { NextRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 
 export function buildQueryParser<
+  V,
   T extends Record<
     string,
     {
@@ -9,8 +10,7 @@ export function buildQueryParser<
       serialize?: (t: V) => string;
       deserialize?: (s: string) => V;
     }
-  >,
-  V
+  >
 >(opts: { [K in keyof T]: T[K] }) {
   return {
     store: (router: NextRouter, items: { [K in keyof T]: T[K]["default"] }) => {
@@ -27,13 +27,21 @@ export function buildQueryParser<
       }
 
       if (parts.length) {
-        router.push(`${window.location.pathname}?${parts.join("&")}`, undefined, {
-          scroll: false,
-        });
+        router
+          .push(`${window.location.pathname}?${parts.join("&")}`, undefined, {
+            scroll: false,
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       } else {
-        router.push(window.location.pathname, undefined, {
-          scroll: false,
-        });
+        router
+          .push(window.location.pathname, undefined, {
+            scroll: false,
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
     },
     parse: (query: ParsedUrlQuery) => {

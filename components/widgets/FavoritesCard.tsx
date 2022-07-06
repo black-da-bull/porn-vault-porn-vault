@@ -1,11 +1,12 @@
-import { useTranslations } from "next-intl";
-import HeartIcon from "mdi-react/HeartIcon";
 import Axios from "axios";
-import WidgetCard from "./WidgetCard";
+import HeartIcon from "mdi-react/HeartIcon";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+
 import { IActor } from "../../types/actor";
 import ActorGridItem from "../ActorGridItem";
 import Button from "../Button";
+import WidgetCard from "./WidgetCard";
 /* import Button from "@mui/material/Button"; */
 
 async function getActors(skip = 0): Promise<{ actors: IActor[] }> {
@@ -64,7 +65,7 @@ export default function FavoritesCard() {
             key={actor._id}
             favorite={actor.favorite}
             name={actor.name}
-            thumbnail={actor.thumbnail?._id}
+            thumbnailId={actor.thumbnail?._id}
           />
         ))}
       </div>

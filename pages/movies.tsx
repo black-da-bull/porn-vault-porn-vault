@@ -1,25 +1,25 @@
+import BookmarkIcon from "mdi-react/BookmarkIcon";
+import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
+import HeartIcon from "mdi-react/HeartIcon";
+import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
 import { GetServerSideProps } from "next";
-import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
+
+import Button from "../components/Button";
+import IconButtonFilter from "../components/IconButtonFilter";
 import ListContainer from "../components/ListContainer";
 import Loader from "../components/Loader";
 import MovieCard from "../components/MovieCard";
 import Pagination from "../components/Pagination";
+import SortDirectionButton, { SortDirection } from "../components/SortDirectionButton";
 import { fetchMovies, useMovieList } from "../composables/use_movie_list";
+import useUpdateEffect from "../composables/use_update_effect";
 import { IMovie } from "../types/movie";
 import { IPaginationResult } from "../types/pagination";
-
-import HeartIcon from "mdi-react/HeartIcon";
-import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
-import BookmarkIcon from "mdi-react/BookmarkIcon";
-import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
-import Button from "../components/Button";
-import useUpdateEffect from "../composables/use_update_effect";
 import { buildQueryParser } from "../util/query_parser";
-import SortDirectionButton, { SortDirection } from "../components/SortDirectionButton";
-import IconButtonFilter from "../components/IconButtonFilter";
 
 const queryParser = buildQueryParser({
   q: {

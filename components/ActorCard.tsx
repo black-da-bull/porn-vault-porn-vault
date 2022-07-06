@@ -1,14 +1,14 @@
-import HeartIcon from "mdi-react/HeartIcon";
-import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
 import BookmarkIcon from "mdi-react/BookmarkIcon";
 import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
+import HeartIcon from "mdi-react/HeartIcon";
+import HeartBorderIcon from "mdi-react/HeartOutlineIcon";
 
-import Paper from "./Paper";
-import Rating from "./Rating";
 import { IActor } from "../types/actor";
-import LabelGroup from "./LabelGroup";
 import { thumbnailUrl } from "../util/thumbnail";
 import Flag from "./Flag";
+import LabelGroup from "./LabelGroup";
+import Paper from "./Paper";
+import Rating from "./Rating";
 import ResponsiveImage from "./ResponsiveImage";
 
 export default function ActorCard({ actor }: { actor: IActor }) {
@@ -57,7 +57,13 @@ export default function ActorCard({ actor }: { actor: IActor }) {
             gap: 5,
           }}
         >
-          {actor.nationality && <Flag size={20} code={actor.nationality.alpha2} />}
+          {actor.nationality && (
+            <Flag
+              name={actor.nationality.alias || actor.nationality.name}
+              size={20}
+              code={actor.nationality.alpha2}
+            />
+          )}
           <div
             style={{
               whiteSpace: "nowrap",

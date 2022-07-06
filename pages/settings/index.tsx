@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import prettyBytes from "pretty-bytes";
+import { useEffect, useState } from "react";
 
 import Card from "../../components/Card";
-import { getFullStatus, StatusData, ServiceStatus } from "../../util/status";
-import CardTitle from "../../components/CardTitle";
-import { useTranslations } from "next-intl";
 import CardSection from "../../components/CardSection";
+import CardTitle from "../../components/CardTitle";
+import { getFullStatus, ServiceStatus,StatusData } from "../../util/status";
 
 export default function SettingsPage() {
   const t = useTranslations();

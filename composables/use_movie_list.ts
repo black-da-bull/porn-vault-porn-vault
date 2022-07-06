@@ -1,9 +1,9 @@
 import axios from "axios";
+import { useState } from "react";
 
 import { movieCardFragment } from "../fragments/movie";
-import { IPaginationResult } from "../types/pagination";
 import { IMovie } from "../types/movie";
-import { useState } from "react";
+import { IPaginationResult } from "../types/pagination";
 import { gqlIp } from "../util/ip";
 
 export function useMovieList(initial: IPaginationResult<IMovie>, query: any) {

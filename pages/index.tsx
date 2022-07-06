@@ -1,11 +1,11 @@
 import Grid from "@mui/material/Grid";
+import Head from "next/head";
+import { useTranslations } from "next-intl";
 
-import StatsCard from "../components/widgets/StatsCard";
 import FavoritesCard from "../components/widgets/FavoritesCard";
 import LibraryTimeCard from "../components/widgets/LibraryTimeCard";
 import ScanCard from "../components/widgets/ScanCard";
-import Head from "next/head";
-import { useTranslations } from "next-intl";
+import StatsCard from "../components/widgets/StatsCard";
 
 export default function IndexPage() {
   const t = useTranslations();

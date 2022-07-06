@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
+
 import styles from "./ComplexGrid.module.scss";
 
 type Props = {
