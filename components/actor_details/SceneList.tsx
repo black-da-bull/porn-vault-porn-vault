@@ -10,7 +10,6 @@ import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
 import Rating from "../Rating";
 import ListWrapper from "../ListWrapper";
 
-import DropdownMenu, { DropdownItemGroup } from "@atlaskit/dropdown-menu";
 import ActorSelector from "../ActorSelector";
 import { useSceneList } from "../../composables/use_scene_list";
 import { useEffect, useState } from "react";
@@ -19,16 +18,18 @@ import useUpdateEffect from "../../composables/use_update_effect";
 import Star from "mdi-react/StarIcon";
 import StarHalf from "mdi-react/StarHalfFullIcon";
 import StarOutline from "mdi-react/StarBorderIcon";
-import ActorIcon_ from "mdi-react/AccountIcon";
+import ActorIcon from "mdi-react/AccountIcon";
 import ActorOutlineIcon from "mdi-react/AccountOutlineIcon";
 
-import LabelIcon_ from "mdi-react/LabelIcon";
+import LabelIcon from "mdi-react/LabelIcon";
 import LabelOutlineIcon from "mdi-react/LabelOutlineIcon";
 
 import { useCollabs } from "../../composables/use_collabs";
 import { useTranslations } from "next-intl";
 import useLabelList from "../../composables/use_label_list";
 import LabelSelector from "../LabelSelector";
+import IconButtonFilter from "../IconButtonFilter";
+import IconButtonMenu from "../IconButtonMenu";
 
 type QueryState = {
   q: string;
@@ -119,10 +120,6 @@ export default function ActorDetailsPageSceneList(props: Props) {
     refreshScenes();
   }, [page]);
 
-  const RatingIcon = rating ? (rating === 10 ? Star : StarHalf) : StarOutline;
-  const ActorIcon = selectedActors.length ? ActorIcon_ : ActorOutlineIcon;
-  const LabelIcon = selectedLabels.length ? LabelIcon_ : LabelOutlineIcon;
-
   const hasNoCollabs = !collabsLoader && !collabs.length;
   const hasNoLabels = !labelLoader && !labelList.length;
 
@@ -157,127 +154,77 @@ export default function ActorDetailsPageSceneList(props: Props) {
           value={query}
           onChange={(ev) => setQuery(ev.target.value)}
         />
-        <DropdownMenu
-          trigger={({ triggerRef, onClick }) => (
-            <div className="hover" onClick={onClick} ref={triggerRef as any}>
-              <RatingIcon size={24} />
-            </div>
-          )}
+        <IconButtonFilter
+          value={favorite}
+          onClick={() => setFavorite(!favorite)}
+          activeIcon={HeartIcon}
+          inactiveIcon={HeartBorderIcon}
+        />
+        <IconButtonFilter
+          value={bookmark}
+          onClick={() => setBookmark(!bookmark)}
+          activeIcon={BookmarkIcon}
+          inactiveIcon={BookmarkBorderIcon}
+        />
+        <IconButtonMenu
+          value={!!rating}
+          activeIcon={rating === 10 ? Star : StarHalf}
+          inactiveIcon={StarOutline}
         >
-          <DropdownItemGroup>
-            <div style={{ padding: "4px 10px" }}>
-              <Rating value={rating} onChange={setRating} />
-            </div>
-          </DropdownItemGroup>
-        </DropdownMenu>
-        <div className="hover" style={{ display: "flex", alignItems: "center" }}>
-          {favorite ? (
-            <HeartIcon size={24} onClick={() => setFavorite(false)} style={{ color: "#ff3355" }} />
-          ) : (
-            <HeartBorderIcon size={24} onClick={() => setFavorite(true)} />
-          )}
-        </div>
-        <div className="hover" style={{ display: "flex", alignItems: "center" }}>
-          {bookmark ? (
-            <BookmarkIcon size={24} onClick={() => setBookmark(false)} />
-          ) : (
-            <BookmarkBorderIcon size={24} onClick={() => setBookmark(true)} />
-          )}
-        </div>
-        <DropdownMenu
-          css={{ background: "#ffff00" }}
+          <Rating value={rating} onChange={setRating} />
+        </IconButtonMenu>
+        <IconButtonMenu
+          counter={selectedLabels.length}
+          value={!!selectedLabels.length}
+          activeIcon={LabelIcon}
+          inactiveIcon={LabelOutlineIcon}
           isLoading={labelLoader}
-          appearance="tall"
-          trigger={({ triggerRef, onClick }) => (
-            <div
-              className="hover"
-              style={{ display: "flex", alignItems: "center" }}
-              onClick={(ev) => {
-                if (!hasNoLabels) {
-                  onClick?.(ev);
-                }
-              }}
-              ref={triggerRef as any}
-            >
-              <LabelIcon
-                style={{
-                  cursor: hasNoLabels ? "not-allowed" : "pointer",
-                  opacity: hasNoLabels ? 0.5 : 1,
-                }}
-                size={24}
-              />
-            </div>
-          )}
+          disabled={hasNoLabels}
         >
-          <DropdownItemGroup css={{ background: "#ffff00" }}>
-            <div style={{ padding: "4px 10px" }}>
-              <input
-                style={{ width: "100%", marginBottom: 10 }}
-                placeholder={t("findLabels")}
-                value={labelQuery}
-                onChange={(ev) => setLabelQuery(ev.target.value)}
-              />
-              <LabelSelector
-                selected={selectedLabels}
-                items={labelList.filter(
-                  (label) =>
-                    label.name.toLowerCase().includes(labelQuery.toLowerCase()) ||
-                    label.aliases.some((alias) =>
-                      alias.toLowerCase().includes(labelQuery.toLowerCase())
-                    )
-                )}
-                onChange={setSelectedLabels}
-              />
-            </div>
-          </DropdownItemGroup>
-        </DropdownMenu>
-        <DropdownMenu
-          css={{ background: "#ffff00" }}
+          <input
+            style={{ width: "100%", marginBottom: 10 }}
+            placeholder={t("findLabels")}
+            value={labelQuery}
+            onChange={(ev) => setLabelQuery(ev.target.value)}
+          />
+          <LabelSelector
+            selected={selectedLabels}
+            items={labelList.filter(
+              (label) =>
+                label.name.toLowerCase().includes(labelQuery.toLowerCase()) ||
+                label.aliases.some((alias) =>
+                  alias.toLowerCase().includes(labelQuery.toLowerCase())
+                )
+            )}
+            onChange={setSelectedLabels}
+          />
+        </IconButtonMenu>
+        <IconButtonMenu
+          counter={selectedActors.length}
+          value={!!selectedActors.length}
+          activeIcon={ActorIcon}
+          inactiveIcon={ActorOutlineIcon}
           isLoading={collabsLoader}
-          appearance="tall"
-          trigger={({ triggerRef, onClick }) => (
-            <div
-              className="hover"
-              style={{ display: "flex", alignItems: "center" }}
-              onClick={(ev) => {
-                if (!hasNoCollabs) {
-                  onClick?.(ev);
-                }
-              }}
-              ref={triggerRef as any}
-            >
-              <ActorIcon
-                style={{
-                  cursor: hasNoCollabs ? "not-allowed" : "pointer",
-                  opacity: hasNoCollabs ? 0.5 : 1,
-                }}
-                size={24}
-              />
-            </div>
-          )}
+          disabled={hasNoCollabs}
         >
-          <DropdownItemGroup css={{ background: "#ffff00" }}>
-            <div style={{ padding: "4px 10px" }}>
-              <input
-                style={{ width: "100%", marginBottom: 10 }}
-                placeholder={t("findActors")}
-                value={actorQuery}
-                onChange={(ev) => setActorQuery(ev.target.value)}
-              />
-              <ActorSelector
-                selected={selectedActors}
-                items={collabs.filter(
-                  (collab) =>
-                    collab.name.toLowerCase().includes(actorQuery.toLowerCase()) ||
-                    collab.aliases.some((alias) =>
-                      alias.toLowerCase().includes(actorQuery.toLowerCase())
-                    )
-                )}
-                onChange={setSelectedActors}
-              />
-            </div>
-          </DropdownItemGroup>
-        </DropdownMenu>
+          <input
+            style={{ width: "100%", marginBottom: 10 }}
+            placeholder={t("findActors")}
+            value={actorQuery}
+            onChange={(ev) => setActorQuery(ev.target.value)}
+          />
+          <ActorSelector
+            selected={selectedActors}
+            items={collabs.filter(
+              (collab) =>
+                collab.name.toLowerCase().includes(actorQuery.toLowerCase()) ||
+                collab.aliases.some((alias) =>
+                  alias.toLowerCase().includes(actorQuery.toLowerCase())
+                )
+            )}
+            onChange={setSelectedActors}
+          />
+        </IconButtonMenu>
         <div style={{ flexGrow: 1 }}></div>
         <Button loading={sceneLoader} onClick={refreshScenes}>
           {t("refresh")}

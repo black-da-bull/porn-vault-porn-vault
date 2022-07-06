@@ -13,6 +13,7 @@ import { thumbnailUrl } from "../util/thumbnail";
 import ActorList from "./ActorList";
 
 import ResponsiveImage from "./ResponsiveImage";
+import { formatDuration } from "../util/string";
 
 export default function SceneCard({ scene }: { scene: IScene }) {
   return (
@@ -21,7 +22,26 @@ export default function SceneCard({ scene }: { scene: IScene }) {
         aspectRatio="4 / 3"
         href={`/scene/${scene._id}`}
         src={scene.thumbnail?._id && thumbnailUrl(scene.thumbnail._id)}
-      />
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: 2,
+            fontSize: 14,
+            fontWeight: "bold",
+            color: "white",
+            position: "absolute",
+            right: 5,
+            bottom: 5,
+          }}
+        >
+          {scene.meta.duration && (
+            <div style={{ borderRadius: 4, padding: "2px 5px", background: "#000000dd" }}>
+              {formatDuration(scene.meta.duration)}
+            </div>
+          )}
+        </div>
+      </ResponsiveImage>
       <div
         style={{
           color: "white",

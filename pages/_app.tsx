@@ -4,10 +4,11 @@ import "nprogress/nprogress.css";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { NextIntlProvider } from "next-intl";
-import lang from "../locale";
+import nprogress from "nprogress";
 import React, { useEffect } from "react";
 import Router from "next/router";
-import nprogress from "nprogress";
+
+import lang from "../locale";
 import Layout from "../components/Layout";
 
 Router.events.on("routeChangeStart", () => nprogress.start());
@@ -22,9 +23,11 @@ export const ThemeContext = React.createContext({
 export default function MyApp({ Component, pageProps, router }: AppProps) {
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
 
-  const toggleTheme = () => {
-    setTheme((prevMode) => (prevMode === "light" ? "dark" : "light"));
-  };
+  function toggleTheme() {
+    const nextTheme = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+    localStorage.setItem("theme", nextTheme);
+  }
 
   useEffect(() => {
     if (theme === "dark") {
@@ -33,6 +36,13 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
       document.querySelector("html")?.classList.remove("dark");
     }
   }, [theme]);
+
+  useEffect(() => {
+    const themeLocalStorage = localStorage.getItem("theme");
+    if (["light", "dark"].includes(themeLocalStorage!)) {
+      setTheme(themeLocalStorage as "light" | "dark");
+    }
+  }, []);
 
   return (
     <>

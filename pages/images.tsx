@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { fetchImages, useImageList } from "../composables/use_image_list";
 import { imageUrl, thumbnailUrl } from "../util/thumbnail";
 import { GetServerSideProps } from "next";
@@ -18,15 +18,58 @@ import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
 import Button from "../components/Button";
 import useUpdateEffect from "../composables/use_update_effect";
 import ImageCard from "../components/ImageCard";
+import SortDirectionButton, { SortDirection } from "../components/SortDirectionButton";
+import IconButtonFilter from "../components/IconButtonFilter";
+import { buildQueryParser } from "../util/query_parser";
+import IconButtonMenu from "../components/IconButtonMenu";
+import Rating from "../components/Rating";
+
+import Star from "mdi-react/StarIcon";
+import StarHalf from "mdi-react/StarHalfFullIcon";
+import StarOutline from "mdi-react/StarBorderIcon";
+import useLabelList from "../composables/use_label_list";
+
+import LabelIcon from "mdi-react/LabelIcon";
+import LabelOutlineIcon from "mdi-react/LabelOutlineIcon";
+import LabelSelector from "../components/LabelSelector";
+
+const queryParser = buildQueryParser({
+  q: {
+    default: "",
+  },
+  page: {
+    default: 0,
+  },
+  sortBy: {
+    default: "addedOn",
+  },
+  sortDir: {
+    default: "desc" as SortDirection,
+  },
+  favorite: {
+    default: false,
+  },
+  bookmark: {
+    default: false,
+  },
+  rating: {
+    default: 0,
+  },
+  labels: {
+    default: [] as string[],
+  },
+});
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const page = Math.max(0, (query.page ? parseInt(String(query.page)) : 0) || 0);
+  const { page, q, sortBy, sortDir, favorite, bookmark, labels } = queryParser.parse(query);
+
   const result = await fetchImages(page, {
-    query: query.q || "",
-    sortBy: query.sortBy || "addedOn",
-    sortDir: query.sortDir || "desc",
-    favorite: query.favorite === "true",
-    bookmark: query.bookmark === "true",
+    query: q,
+    sortBy,
+    sortDir,
+    favorite,
+    bookmark,
+    include: labels,
   });
 
   return {
@@ -43,21 +86,29 @@ export default function ImageListPage(props: { page: number; initial: IPaginatio
 
   const [activeIndex, setActive] = useState<number>(-1);
 
-  const [query, setQuery] = useState(router.query.q || "");
-  const [favorite, setFavorite] = useState(router.query.favorite === "true");
-  const [bookmark, setBookmark] = useState(router.query.bookmark === "true");
-  const [sortBy, setSortBy] = useState(router.query.sortBy || "addedOn");
-  const [sortDir, setSortDir] = useState(router.query.sortDir || "desc");
+  const parsedQuery = useMemo(() => queryParser.parse(router.query), []);
+
+  const [query, setQuery] = useState(parsedQuery.q);
+  const [favorite, setFavorite] = useState(parsedQuery.favorite);
+  const [bookmark, setBookmark] = useState(parsedQuery.bookmark);
+  const [rating, setRating] = useState(parsedQuery.rating);
+  const [sortBy, setSortBy] = useState(parsedQuery.sortBy);
+  const [sortDir, setSortDir] = useState(parsedQuery.sortDir);
+  const [page, setPage] = useState(props.page);
+
+  const { labels: labelList, loading: labelLoader } = useLabelList();
+  const [selectedLabels, setSelectedLabels] = useState(parsedQuery.labels);
+  const [labelQuery, setLabelQuery] = useState("");
 
   const { images, fetchImages, loading, numItems, numPages } = useImageList(props.initial, {
+    rating,
     query,
     favorite,
     bookmark,
     sortBy,
     sortDir,
+    include: selectedLabels,
   });
-
-  const [page, setPage] = useState(props.page);
 
   async function onPageChange(x: number): Promise<void> {
     setPage(x);
@@ -65,18 +116,25 @@ export default function ImageListPage(props: { page: number; initial: IPaginatio
 
   async function refresh(): Promise<void> {
     fetchImages(page);
-    router.push(
-      `/images?q=${query}&favorite=${String(favorite)}&bookmark=${String(
-        bookmark
-      )}&sortBy=${sortBy}&sortDir=${sortDir}&page=${page}`
-    );
+    queryParser.store(router, {
+      q: query,
+      favorite,
+      bookmark,
+      sortBy,
+      sortDir,
+      page,
+      rating,
+      labels: selectedLabels,
+    });
   }
 
   useUpdateEffect(() => {
     setPage(0);
-  }, [query, favorite, bookmark, sortBy, sortDir]);
+  }, [query, favorite, bookmark, sortBy, sortDir, JSON.stringify(selectedLabels)]);
 
   useUpdateEffect(refresh, [page]);
+
+  const hasNoLabels = !labelLoader && !labelList.length;
 
   function renderContent() {
     if (loading) {
@@ -150,36 +208,61 @@ export default function ImageListPage(props: { page: number; initial: IPaginatio
           value={query}
           onChange={(ev) => setQuery(ev.target.value)}
         />
-        <div className="hover">
-          {favorite ? (
-            <HeartIcon
-              onClick={() => setFavorite(false)}
-              style={{ fontSize: 32, color: "#ff3355" }}
-            />
-          ) : (
-            <HeartBorderIcon onClick={() => setFavorite(true)} style={{ fontSize: 32 }} />
-          )}
-        </div>
-        <div className="hover">
-          {bookmark ? (
-            <BookmarkIcon onClick={() => setBookmark(false)} style={{ fontSize: 32 }} />
-          ) : (
-            <BookmarkBorderIcon onClick={() => setBookmark(true)} style={{ fontSize: 32 }} />
-          )}
-        </div>
+        <IconButtonFilter
+          value={favorite}
+          onClick={() => setFavorite(!favorite)}
+          activeIcon={HeartIcon}
+          inactiveIcon={HeartBorderIcon}
+        />
+        <IconButtonFilter
+          value={bookmark}
+          onClick={() => setBookmark(!bookmark)}
+          activeIcon={BookmarkIcon}
+          inactiveIcon={BookmarkBorderIcon}
+        />
+        <IconButtonMenu
+          value={!!rating}
+          activeIcon={rating === 10 ? Star : StarHalf}
+          inactiveIcon={StarOutline}
+        >
+          <Rating value={rating} onChange={setRating} />
+        </IconButtonMenu>
+        <IconButtonMenu
+          counter={selectedLabels.length}
+          value={!!selectedLabels.length}
+          activeIcon={LabelIcon}
+          inactiveIcon={LabelOutlineIcon}
+          isLoading={labelLoader}
+          disabled={hasNoLabels}
+        >
+          <input
+            style={{ width: "100%", marginBottom: 10 }}
+            placeholder={t("findLabels")}
+            value={labelQuery}
+            onChange={(ev) => setLabelQuery(ev.target.value)}
+          />
+          <LabelSelector
+            selected={selectedLabels}
+            items={labelList.filter(
+              (label) =>
+                label.name.toLowerCase().includes(labelQuery.toLowerCase()) ||
+                label.aliases.some((alias) =>
+                  alias.toLowerCase().includes(labelQuery.toLowerCase())
+                )
+            )}
+            onChange={setSelectedLabels}
+          />
+        </IconButtonMenu>
         <select value={sortBy} onChange={(ev) => setSortBy(ev.target.value)}>
           <option value="relevance">{t("relevance")}</option>
           <option value="addedOn">{t("addedToCollection")}</option>
           <option value="rating">{t("rating")}</option>
         </select>
-        <select
-          disabled={sortBy === "relevance"}
+        <SortDirectionButton
+          disabled={sortBy === "$shuffle"}
           value={sortDir}
-          onChange={(ev) => setSortDir(ev.target.value)}
-        >
-          <option value="asc">{t("asc")}</option>
-          <option value="desc">{t("desc")}</option>
-        </select>
+          onChange={setSortDir}
+        />
         <div style={{ flexGrow: 1 }}></div>
         <Button onClick={refresh}>{t("refresh")}</Button>
       </div>

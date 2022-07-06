@@ -18,6 +18,8 @@ import BookmarkBorderIcon from "mdi-react/BookmarkOutlineIcon";
 import Button from "../components/Button";
 import useUpdateEffect from "../composables/use_update_effect";
 import { buildQueryParser } from "../util/query_parser";
+import SortDirectionButton, { SortDirection } from "../components/SortDirectionButton";
+import IconButtonFilter from "../components/IconButtonFilter";
 
 const queryParser = buildQueryParser({
   q: {
@@ -30,7 +32,7 @@ const queryParser = buildQueryParser({
     default: "addedOn",
   },
   sortDir: {
-    default: "desc",
+    default: "desc" as SortDirection,
   },
   favorite: {
     default: false,
@@ -157,37 +159,29 @@ export default function ActorListPage(props: { page: number; initial: IPaginatio
           value={query}
           onChange={(ev) => setQuery(ev.target.value)}
         />
-        <div className="hover">
-          {favorite ? (
-            <HeartIcon
-              onClick={() => setFavorite(false)}
-              style={{ fontSize: 32, color: "#ff3355" }}
-            />
-          ) : (
-            <HeartBorderIcon onClick={() => setFavorite(true)} style={{ fontSize: 32 }} />
-          )}
-        </div>
-        <div className="hover">
-          {bookmark ? (
-            <BookmarkIcon onClick={() => setBookmark(false)} style={{ fontSize: 32 }} />
-          ) : (
-            <BookmarkBorderIcon onClick={() => setBookmark(true)} style={{ fontSize: 32 }} />
-          )}
-        </div>
+        <IconButtonFilter
+          value={favorite}
+          onClick={() => setFavorite(!favorite)}
+          activeIcon={HeartIcon}
+          inactiveIcon={HeartBorderIcon}
+        />
+        <IconButtonFilter
+          value={bookmark}
+          onClick={() => setBookmark(!bookmark)}
+          activeIcon={BookmarkIcon}
+          inactiveIcon={BookmarkBorderIcon}
+        />
         <select value={sortBy} onChange={(ev) => setSortBy(ev.target.value)}>
           <option value="relevance">{t("relevance")}</option>
           <option value="addedOn">{t("addedToCollection")}</option>
           <option value="duration">{t("duration")}</option>
           <option value="numScenes">{t("numScenes")}</option>
         </select>
-        <select
-          disabled={sortBy === "relevance"}
+        <SortDirectionButton
+          disabled={sortBy === "$shuffle"}
           value={sortDir}
-          onChange={(ev) => setSortDir(ev.target.value)}
-        >
-          <option value="asc">{t("asc")}</option>
-          <option value="desc">{t("desc")}</option>
-        </select>
+          onChange={setSortDir}
+        />
         <div style={{ flexGrow: 1 }}></div>
         <Button loading={loading} onClick={refresh}>
           {t("refresh")}

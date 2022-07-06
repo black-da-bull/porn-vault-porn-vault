@@ -20,6 +20,20 @@ import { CountrySelector } from "../components/CountrySelector";
 import Rating from "../components/Rating";
 import ListWrapper from "../components/ListWrapper";
 import SortDirectionButton, { SortDirection } from "../components/SortDirectionButton";
+import IconButtonMenu from "../components/IconButtonMenu";
+
+import Star from "mdi-react/StarIcon";
+import StarHalf from "mdi-react/StarHalfFullIcon";
+import StarOutline from "mdi-react/StarBorderIcon";
+
+import LabelIcon from "mdi-react/LabelIcon";
+import LabelOutlineIcon from "mdi-react/LabelOutlineIcon";
+import IconButtonFilter from "../components/IconButtonFilter";
+import useLabelList from "../composables/use_label_list";
+import LabelSelector from "../components/LabelSelector";
+
+import FlagIcon from "mdi-react/FlagIcon";
+import FlagOutlineIcon from "mdi-react/FlagOutlineIcon";
 
 const queryParser = buildQueryParser({
   q: {
@@ -46,10 +60,14 @@ const queryParser = buildQueryParser({
   rating: {
     default: 0,
   },
+  labels: {
+    default: [] as string[],
+  },
 });
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { page, q, nationality, sortBy, sortDir, favorite, bookmark } = queryParser.parse(query);
+  const { page, q, nationality, sortBy, sortDir, favorite, bookmark, labels } =
+    queryParser.parse(query);
 
   const result = await fetchActors(page, {
     query: q,
@@ -58,6 +76,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     sortDir,
     favorite,
     bookmark,
+    include: labels,
   });
 
   return {
@@ -78,10 +97,15 @@ export default function ActorListPage(props: { page: number; initial: IPaginatio
   const [favorite, setFavorite] = useState(parsedQuery.favorite);
   const [bookmark, setBookmark] = useState(parsedQuery.bookmark);
   const [rating, setRating] = useState(parsedQuery.rating);
-  const [nationality, setNationality] = useState(parsedQuery.nationality);
   const [sortBy, setSortBy] = useState(parsedQuery.sortBy);
   const [sortDir, setSortDir] = useState(parsedQuery.sortDir);
   const [page, setPage] = useState(props.page);
+
+  const [nationality, setNationality] = useState(parsedQuery.nationality);
+
+  const { labels: labelList, loading: labelLoader } = useLabelList();
+  const [selectedLabels, setSelectedLabels] = useState(parsedQuery.labels);
+  const [labelQuery, setLabelQuery] = useState("");
 
   const { actors, loading, numPages, numItems, fetchActors } = useActorList(props.initial, {
     query,
@@ -91,6 +115,7 @@ export default function ActorListPage(props: { page: number; initial: IPaginatio
     sortDir,
     nationality,
     rating,
+    include: selectedLabels,
   });
 
   async function onPageChange(x: number): Promise<void> {
@@ -100,7 +125,6 @@ export default function ActorListPage(props: { page: number; initial: IPaginatio
 
   async function refresh(): Promise<void> {
     fetchActors(page);
-    console.log(query);
     queryParser.store(router, {
       q: query,
       nationality,
@@ -110,14 +134,26 @@ export default function ActorListPage(props: { page: number; initial: IPaginatio
       sortDir,
       page,
       rating,
+      labels: selectedLabels,
     });
   }
 
   useUpdateEffect(() => {
     setPage(0);
-  }, [query, favorite, bookmark, nationality, sortBy, sortDir, rating]);
+  }, [
+    query,
+    favorite,
+    bookmark,
+    nationality,
+    sortBy,
+    sortDir,
+    rating,
+    JSON.stringify(selectedLabels),
+  ]);
 
   useUpdateEffect(refresh, [page]);
+
+  const hasNoLabels = !labelLoader && !labelList.length;
 
   return (
     <div style={{ padding: 10 }}>
@@ -155,25 +191,54 @@ export default function ActorListPage(props: { page: number; initial: IPaginatio
           value={query}
           onChange={(ev) => setQuery(ev.target.value)}
         />
-        <Rating value={rating} onChange={setRating} />
-        <div className="hover">
-          {favorite ? (
-            <HeartIcon
-              onClick={() => setFavorite(false)}
-              style={{ fontSize: 32, color: "#ff3355" }}
-            />
-          ) : (
-            <HeartBorderIcon onClick={() => setFavorite(true)} style={{ fontSize: 32 }} />
-          )}
-        </div>
-        <div className="hover">
-          {bookmark ? (
-            <BookmarkIcon onClick={() => setBookmark(false)} style={{ fontSize: 32 }} />
-          ) : (
-            <BookmarkBorderIcon onClick={() => setBookmark(true)} style={{ fontSize: 32 }} />
-          )}
-        </div>
-        <CountrySelector style={{ maxWidth: 150 }} value={nationality} onChange={setNationality} />
+        <IconButtonFilter
+          value={favorite}
+          onClick={() => setFavorite(!favorite)}
+          activeIcon={HeartIcon}
+          inactiveIcon={HeartBorderIcon}
+        />
+        <IconButtonFilter
+          value={bookmark}
+          onClick={() => setBookmark(!bookmark)}
+          activeIcon={BookmarkIcon}
+          inactiveIcon={BookmarkBorderIcon}
+        />
+        <IconButtonMenu
+          value={!!rating}
+          activeIcon={rating === 10 ? Star : StarHalf}
+          inactiveIcon={StarOutline}
+        >
+          <Rating value={rating} onChange={setRating} />
+        </IconButtonMenu>
+        <IconButtonMenu
+          counter={selectedLabels.length}
+          value={!!selectedLabels.length}
+          activeIcon={LabelIcon}
+          inactiveIcon={LabelOutlineIcon}
+          isLoading={labelLoader}
+          disabled={hasNoLabels}
+        >
+          <input
+            style={{ width: "100%", marginBottom: 10 }}
+            placeholder={t("findLabels")}
+            value={labelQuery}
+            onChange={(ev) => setLabelQuery(ev.target.value)}
+          />
+          <LabelSelector
+            selected={selectedLabels}
+            items={labelList.filter(
+              (label) =>
+                label.name.toLowerCase().includes(labelQuery.toLowerCase()) ||
+                label.aliases.some((alias) =>
+                  alias.toLowerCase().includes(labelQuery.toLowerCase())
+                )
+            )}
+            onChange={setSelectedLabels}
+          />
+        </IconButtonMenu>
+        <IconButtonMenu value={!!nationality} activeIcon={FlagIcon} inactiveIcon={FlagOutlineIcon}>
+          <CountrySelector value={nationality} onChange={setNationality} />
+        </IconButtonMenu>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <select value={sortBy} onChange={(ev) => setSortBy(ev.target.value)}>
             <option value="relevance">{t("relevance")}</option>

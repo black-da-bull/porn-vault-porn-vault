@@ -11,7 +11,7 @@ import Flag from "../Flag";
 
 type Props = {
   avatarId?: string;
-  nationality?: { alpha2: string };
+  nationality?: { name: string; alias?: string; alpha2: string };
   actorName: string;
   age?: number;
   bornOn?: number;
@@ -43,7 +43,10 @@ export default function ActorProfile(props: Props) {
               bottom: 0,
             }}
           >
-            <Flag code={props.nationality.alpha2} />
+            <Flag
+              name={props.nationality.alias || props.nationality.name}
+              code={props.nationality.alpha2}
+            />
           </div>
         )}
       </div>
