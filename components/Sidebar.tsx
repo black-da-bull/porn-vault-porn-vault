@@ -69,7 +69,7 @@ export default function Sidebar({ active, toggleSidebar }: Props) {
       <div style={{ padding: 8 }}>
         {links.map((link) => (
           <Link key={link.url} href={link.url} passHref>
-            <a>
+            <a onClick={toggleSidebar}>
               <div className="hover sidebar-link">
                 {link.icon}
                 <span style={{ opacity: 0.8 }}>{t(link.text, { numItems: 2 })}</span>
