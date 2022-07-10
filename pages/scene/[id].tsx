@@ -167,8 +167,9 @@ export default function ScenePage({ scene }: { scene: IScene }) {
               </div>
               <div style={{ flexGrow: 1 }} />
               {!!scene.studio && (
+                /* TODO: link */
                 <img
-                  height="32"
+                  style={{ maxWidth: 200, maxHeight: 64, objectFit: "cover" }}
                   src={thumbnailUrl(scene.studio.thumbnail?._id)}
                   alt={`${scene.studio.name} Logo`}
                 />

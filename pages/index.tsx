@@ -15,6 +15,20 @@ export default function IndexPage() {
       <Head>
         <title>{t("overview")}</title>
       </Head>
+      {/*  <div>
+        <input
+          type="file"
+          onChange={(ev) => {
+            const fileReader = new FileReader();
+
+            fileReader.onload = (ev) => {
+              setSrc(ev.target!.result!.toString());
+            };
+
+            fileReader.readAsDataURL(ev.target.files![0]);
+          }}
+        />
+      </div> */}
       <Grid sx={{ maxWidth: 900 }} container columns={{ xs: 1, sm: 2, md: 4 }} spacing={2}>
         <Grid item xs={1} sm={2}>
           <StatsCard />

@@ -1,6 +1,6 @@
 @import "./color.scss";
 
-input,
+input[type="text"],
 select {
   color: #333333;
   cursor: text;
@@ -29,7 +29,7 @@ select {
 }
 
 .dark {
-  input,
+  input[type="text"],
   select {
     color: #e0e0e0;
     background: darken($bg-dark, 1%);

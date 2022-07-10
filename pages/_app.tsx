@@ -1,5 +1,6 @@
 import "../styles/global.scss";
 import "nprogress/nprogress.css";
+import "react-image-crop/src/ReactCrop.scss";
 
 import { AppProps } from "next/app";
 import Head from "next/head";
