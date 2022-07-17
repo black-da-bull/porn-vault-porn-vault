@@ -1,4 +1,5 @@
 import execa from "execa";
+import { platform } from "os";
 
 import args from "./args";
 import { deleteIzzy, ensureIzzyExists, izzyVersion, resetIzzy, spawnIzzy } from "./binaries/izzy";
@@ -29,6 +30,28 @@ function skipImage(image: Image) {
   return false;
 }
 
+function imagemagickHelp(cmd: string, path: string) {
+  if (platform() !== "win32" && path.endsWith(".exe")) {
+    logger.warn(
+      `It looks like you're not running Windows, but your config contains a .exe path.
+Make sure to install imagemagick and set the correct imagemagick path in the config`
+    );
+  }
+  if (platform() === "linux") {
+    logger.warn(
+      `Maybe try using something like: "sudo apt-get install imagemagick" and adjusting the ${cmd}Path in the config to "${cmd}"`
+    );
+  } else if (platform() === "darwin") {
+    logger.warn(
+      `Maybe try using something like: "brew install imagemagick" and adjusting the ${cmd}Path in the config to "${cmd}"`
+    );
+  } else if (platform() === "win32") {
+    logger.warn(
+      `Maybe try downloading the .exe from : "https://imagemagick.org/script/download.php" and adjusting the ${cmd}Path in the config to "${cmd}"`
+    );
+  }
+}
+
 export async function startup() {
   loadEnv();
 
@@ -51,9 +74,20 @@ export async function startup() {
     return handleError(`Error during startup`, err, true);
   }
 
-  execa.sync(config.imagemagick.convertPath, ["--version"]);
-  execa.sync(config.imagemagick.montagePath, ["--version"]);
-  execa.sync(config.imagemagick.identifyPath, ["--version"]);
+  const magickBins = ["convert", "montage", "identify"];
+
+  for (const bin of magickBins) {
+    // @ts-ignore
+    const path = config.imagemagick[`${bin}Path`];
+    logger.verbose(`Checking imagemagick (${bin})...`);
+
+    try {
+      execa.sync(path, ["--version"]);
+    } catch (err) {
+      imagemagickHelp(bin, path);
+      return handleError(`Failed to run imagemagick (${bin}) at ${path}`, err, true);
+    }
+  }
 
   if (args["generate-image-thumbnails"]) {
     if (await izzyVersion().catch(() => false)) {

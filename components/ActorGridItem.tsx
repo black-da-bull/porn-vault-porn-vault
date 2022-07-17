@@ -1,4 +1,4 @@
-import HeartIcon from "@mui/icons-material/Favorite";
+import HeartIcon from "mdi-react/HeartIcon";
 import Link from "next/link";
 
 import { thumbnailUrl } from "../util/thumbnail";

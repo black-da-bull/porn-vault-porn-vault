@@ -97,7 +97,7 @@ export default async (): Promise<Vault> => {
         await exitIzzy();
         await spawnIzzy();
       } else {
-        logger.warn("Using existing Izzy process, will not be able to detect a crash");
+        logger.info("Using existing Izzy process, will not be able to detect a crash");
       }
     } else {
       await spawnIzzy();
@@ -110,7 +110,7 @@ export default async (): Promise<Vault> => {
   if (config.persistence.backup.enable === true) {
     vault.setupMessage = "Creating backup...";
     try {
-      await createBackup(config.persistence.backup.maxAmount || 10);
+      await createBackup(config.persistence.backup.maxAmount ?? 10);
     } catch (error) {
       handleError("Backup error", error);
     }

@@ -150,6 +150,7 @@ export default function ActorListPage(props: { page: number; initial: IPaginatio
         }}
       >
         <input
+          type="text"
           onKeyDown={(ev) => {
             if (ev.key === "Enter") {
               refresh();

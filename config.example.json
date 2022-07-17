@@ -1,8 +1,8 @@
 {
   "imagemagick": {
-    "convertPath": "convert.exe",
-    "montagePath": "montage.exe",
-    "identifyPath": "identify.exe"
+    "convertPath": "convert",
+    "montagePath": "montage",
+    "identifyPath": "identify"
   },
   "search": {
     "host": "http://localhost:9200",

@@ -94,20 +94,9 @@ $topbar-height: 54px;
   }
 }
 
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-  padding: 8px 4px;
-  text-transform: capitalize;
-  margin-bottom: 8px;
-  font-weight: bold;
-  gap: 8px;
-}
-
 .sidebar {
   grid-area: sidebar;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid #e6e6e6;
   height: 100%;
   min-height: 100vh;
 

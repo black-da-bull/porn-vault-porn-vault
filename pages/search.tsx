@@ -1,4 +1,3 @@
-import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import { useTranslations } from "next-intl";
@@ -96,9 +95,7 @@ export default function SearchPage(props: {
     <div style={{ padding: 10 }}>
       {/* Actors */}
       <div style={{ marginBottom: 20 }}>
-        <Typography sx={{ marginBottom: "10px" }} variant="h6">
-          {t("foundActors", { numItems: actorResult.numItems })}
-        </Typography>
+        <h6 style={{ marginBottom: 10 }}>{t("foundActors", { numItems: actorResult.numItems })}</h6>
         <ListContainer>
           {actorResult.items.map((actor) => (
             <ActorCard actor={actor} key={actor._id} />
@@ -107,9 +104,7 @@ export default function SearchPage(props: {
       </div>
       {/* Movies */}
       <div style={{ marginBottom: 20 }}>
-        <Typography sx={{ marginBottom: "10px" }} variant="h6">
-          {t("foundMovies", { numItems: movieResult.numItems })}
-        </Typography>
+        <h6 style={{ marginBottom: 10 }}>{t("foundMovies", { numItems: movieResult.numItems })}</h6>
         <ListContainer size={250}>
           {movieResult.items.map((movie) => (
             <MovieCard key={movie._id} movie={movie} />
@@ -118,9 +113,7 @@ export default function SearchPage(props: {
       </div>
       {/* Scenes */}
       <div>
-        <Typography sx={{ marginBottom: "10px" }} variant="h6">
-          {t("foundScenes", { numItems: sceneResult.numItems })}
-        </Typography>
+        <h6 style={{ marginBottom: 10 }}>{t("foundScenes", { numItems: sceneResult.numItems })}</h6>
         <ListContainer size={250}>
           {sceneResult.items.map((scene) => (
             <SceneCard scene={scene} />

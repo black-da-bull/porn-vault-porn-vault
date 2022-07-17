@@ -7,7 +7,6 @@ import { IActor } from "../../types/actor";
 import ActorGridItem from "../ActorGridItem";
 import Button from "../Button";
 import WidgetCard from "./WidgetCard";
-/* import Button from "@mui/material/Button"; */
 
 async function getActors(skip = 0): Promise<{ actors: IActor[] }> {
   const res = await Axios.post("/api/ql", {

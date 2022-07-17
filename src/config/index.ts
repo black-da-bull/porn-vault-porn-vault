@@ -107,7 +107,7 @@ export async function findAndLoadConfig(): Promise<boolean> {
     }
   } catch (error) {
     handleError(
-      "ERROR when loading config, please fix it. Run your file through a linter before trying again (search for 'JSON/YAML linter' online).",
+      "ERROR loading config, please fix it. Run your file through a linter before trying again (search for 'JSON/YAML linter' online)",
       error
     );
     throw error;
@@ -118,7 +118,7 @@ export async function findAndLoadConfig(): Promise<boolean> {
       await setupNewConfig();
       return true;
     } catch (err) {
-      handleError("ERROR when writing default config.", err);
+      handleError("ERROR when writing default config", err);
     }
   }
 

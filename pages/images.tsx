@@ -197,6 +197,7 @@ export default function ImageListPage(props: { page: number; initial: IPaginatio
         }}
       >
         <input
+          type="text"
           onKeyDown={(ev) => {
             if (ev.key === "Enter") {
               refresh();

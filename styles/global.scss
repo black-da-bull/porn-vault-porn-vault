@@ -18,13 +18,17 @@
   box-sizing: border-box;
 }
 
+.shadow {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 a {
   text-decoration: none;
   color: inherit;
 }
 
 body {
-  background: #eceef3;
+  background: #f6f7f8;
   margin: 0;
   height: 100vh;
 }

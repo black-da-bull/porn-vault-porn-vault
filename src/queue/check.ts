@@ -33,7 +33,7 @@ const VIDEO_EXTENSIONS = [
 export async function checkVideoFolders(): Promise<void> {
   const config = getConfig();
 
-  logger.warn("Scanning video folders...");
+  logger.info("Scanning video folders...");
 
   const unknownVideos = [] as string[];
 

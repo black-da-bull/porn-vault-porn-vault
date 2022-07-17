@@ -1,4 +1,3 @@
-import Grid from "@mui/material/Grid";
 import Head from "next/head";
 import { useTranslations } from "next-intl";
 
@@ -11,11 +10,11 @@ export default function IndexPage() {
   const t = useTranslations();
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 10 }}>
+    <div style={{ padding: 10 }}>
       <Head>
         <title>{t("overview")}</title>
       </Head>
-      {/*  <div>
+      {/*   <div>
         <input
           type="file"
           onChange={(ev) => {
@@ -29,16 +28,18 @@ export default function IndexPage() {
           }}
         />
       </div> */}
-      <Grid sx={{ maxWidth: 900 }} container columns={{ xs: 1, sm: 2, md: 4 }} spacing={2}>
-        <Grid item xs={1} sm={2}>
-          <StatsCard />
-          <LibraryTimeCard />
-          <ScanCard />
-        </Grid>
-        <Grid item xs={1} sm={2}>
-          <FavoritesCard />
-        </Grid>
-      </Grid>
+      <div
+        style={{
+          gridTemplateColumns: "repeat(auto-fit, minmax(275px, 1fr))",
+          display: "grid",
+          gap: 10,
+        }}
+      >
+        <StatsCard />
+        <FavoritesCard />
+        <ScanCard />
+        <LibraryTimeCard />
+      </div>
     </div>
   );
 }

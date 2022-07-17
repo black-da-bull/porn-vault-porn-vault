@@ -16,7 +16,7 @@ export function formatMessage(message: unknown) {
 let logger = createVaultLogger(process.env.PV_LOG_LEVEL || "info", []);
 
 export function handleError(message: string, error: unknown, bail = false) {
-  logger.error(`${message}: ${formatMessage(error)}`);
+  logger.error(`${bail ? "FATAL: " : ""}${message}: ${formatMessage(error)}`);
   if (error instanceof Error) {
     logger.debug(error.stack);
   }

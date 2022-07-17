@@ -153,6 +153,7 @@ export default function SceneListPage(props: { page: number; initial: IPaginatio
         }}
       >
         <input
+          type="text"
           onKeyDown={(ev) => {
             if (ev.key === "Enter") {
               refresh();

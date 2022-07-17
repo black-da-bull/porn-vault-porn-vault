@@ -14,6 +14,7 @@ import { useVersion } from "../composables/use_version";
 import { ThemeContext } from "../pages/_app";
 import Button from "./Button";
 import Paper from "./Paper";
+import styles from "./Sidebar.module.scss";
 
 const links = [
   {
@@ -66,13 +67,18 @@ export default function Sidebar({ active, toggleSidebar }: Props) {
 
   const sidebarContent = (
     <>
-      <div style={{ padding: 8 }}>
+      <div style={{ padding: 12, display: "flex", flexDirection: "column", gap: 8 }}>
         {links.map((link) => (
           <Link key={link.url} href={link.url} passHref>
             <a onClick={toggleSidebar}>
-              <div className="hover sidebar-link">
+              <div
+                className={clsx(
+                  router.pathname == link.url ? styles["active"] : "",
+                  styles["sidebar-link"]
+                )}
+              >
                 {link.icon}
-                <span style={{ opacity: 0.8 }}>{t(link.text, { numItems: 2 })}</span>
+                <div>{t(link.text, { numItems: 2 })}</div>
               </div>
             </a>
           </Link>
